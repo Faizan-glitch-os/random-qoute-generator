@@ -1,17 +1,23 @@
-const apiKey = import.meta.env.KEY;
+const apiKey = import.meta.env.VITE_KEY;
 
-export type apiDataType = [{ qoute: string; author: string; category: string }];
+export type quotesType = { quote: string; author: string; category: string };
 
-export const GetRandomQoute = async () => {
+export const getRandomQuote = async (): Promise<quotesType[]> => {
   try {
     const response = await fetch("https://api.api-ninjas.com/v1/quotes", {
       headers: {
-        " X-Api-key": apiKey,
+        "X-Api-Key": apiKey,
       },
     });
-    const quotes: apiDataType = await response.json();
+
+    if (!response.ok) {
+      throw new Error("failed to fetch quote");
+    }
+
+    const quotes: quotesType[] = await response.json();
     return quotes;
   } catch (error) {
     console.log(error);
+    return [];
   }
 };
