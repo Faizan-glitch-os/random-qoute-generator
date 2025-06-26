@@ -1,4 +1,4 @@
-const apiKey = import.meta.env.VITE_KEY;
+const apiKey = "kXNfg+MctnmBXmxBWfZpFg==0AL2UEDcLbsc8vJ4";
 
 export type quotesType = { quote: string; author: string; category: string };
 
