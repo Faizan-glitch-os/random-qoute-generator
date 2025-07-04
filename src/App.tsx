@@ -1,12 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import "./App.css";
-import { getRandomQuote, type quotesType } from "./http";
+import { getRandomQuote, type quoteType } from "./http";
 import { motion, AnimatePresence } from "motion/react";
 
 function App() {
-  const { data, isError, error, isRefetching, refetch } = useQuery<
-    quotesType[]
-  >({
+  const { data, isError, error, isRefetching, refetch } = useQuery<quoteType>({
     queryKey: ["randomQuote"],
     queryFn: getRandomQuote,
     refetchOnWindowFocus: false,
@@ -35,18 +33,18 @@ function App() {
         )}
         {isError && <p>{error.message}</p>}
         <AnimatePresence initial={false} key={"quote"}>
-          {data && data.length > 0 && !isRefetching && (
+          {data && !isRefetching && (
             <>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 1 }}
                 className="text-4xl text-slate-900"
               >
-                "{data[0].quote}"
+                "{data.quote}"
               </motion.p>
-              <p className="mt-4 text-3xl text-cyan-900 text-center">
-                --{data[0].author}
+              <p className="mt-4 text-3xl text-end font-bold text-cyan-900">
+                --{data.author}
               </p>
             </>
           )}

@@ -1,23 +1,21 @@
-const apiKey = "kXNfg+MctnmBXmxBWfZpFg==0AL2UEDcLbsc8vJ4";
+export type quoteType = { status: string; author: string; quote: string };
 
-export type quotesType = { quote: string; author: string; category: string };
-
-export const getRandomQuote = async (): Promise<quotesType[]> => {
+export const getRandomQuote = async (): Promise<quoteType> => {
   try {
-    const response = await fetch("https://api.api-ninjas.com/v1/quotes", {
-      headers: {
-        "X-Api-Key": apiKey,
-      },
-    });
+    const response = await fetch("http://localhost:3000/api/v1/random-quote");
 
     if (!response.ok) {
       throw new Error("failed to fetch quote");
     }
 
-    const quotes: quotesType[] = await response.json();
+    const quotes: quoteType = await response.json();
     return quotes;
   } catch (error) {
     console.log(error);
-    return [];
+    return {
+      status: "error",
+      author: "check your internet connection",
+      quote: "Failed to load quote",
+    };
   }
 };
